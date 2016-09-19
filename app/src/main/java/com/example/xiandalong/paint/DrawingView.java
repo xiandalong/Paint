@@ -4,14 +4,20 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DrawingView extends View {
 
     private final int paintColor = Color.BLACK;
     private Paint drawPaint;
+    private List<Point> points;
 
 
     public DrawingView(Context context, AttributeSet attrs) {
@@ -19,6 +25,7 @@ public class DrawingView extends View {
         setFocusable(true);
         setFocusableInTouchMode(true);
         setupPaint();
+        points = new ArrayList<>();
     }
 
     private void setupPaint() {
@@ -33,10 +40,20 @@ public class DrawingView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(50, 50, 20, drawPaint);
-        drawPaint.setColor(Color.GREEN);
-        canvas.drawCircle(50, 150, 20, drawPaint);
-        drawPaint.setColor(Color.BLUE);
-        canvas.drawCircle(50, 250, 20, drawPaint);
+        for (int i = 0; i < points.size() - 1; i++) {
+            Point pre = points.get(i);
+            Point post = points.get(i + 1);
+            canvas.drawLine(pre.x, pre.y, post.x, post.y, drawPaint);
+        }
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x_pos = Math.round(event.getX());
+        int y_pos = Math.round(event.getY());
+        points.add(new Point(x_pos, y_pos));
+        postInvalidate();
+        return true;
     }
 }
