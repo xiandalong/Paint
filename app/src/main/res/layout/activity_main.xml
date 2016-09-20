@@ -8,13 +8,49 @@
     tools:context="com.example.xiandalong.paint.MainActivity"
     >
     <com.example.xiandalong.paint.DrawingView
-        android:id="@+id/draw_view"
+        android:id="@+id/drawing_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentTop="true"
+        />
 
+    <ImageButton
+        android:id="@+id/reset_image_view"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/icon_margin"
+        android:src="@drawable/ic_reset"
+        />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+
+        >
+
+        <ImageButton
+            android:id="@+id/select_color_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_grey"
+            android:layout_margin="@dimen/icon_margin"
+            />
+
+        <ImageButton
+            android:id="@+id/select_color_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_black"
+            android:layout_margin="@dimen/icon_margin"
+            />
+
+    </LinearLayout>
 </RelativeLayout>

@@ -4,47 +4,44 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
+import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class DrawingView extends View {
 
-    private final int paintColor = Color.BLACK;
     private Paint drawPaint;
-    private List<Point> points;
-
+    private Path path = new Path();
+    private List<Path> paths = new ArrayList<>();
+    private Map<Path, Integer> colorMap = new HashMap<>();
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         setFocusable(true);
         setFocusableInTouchMode(true);
         setupPaint();
-        points = new ArrayList<>();
-    }
 
-    private void setupPaint() {
-        drawPaint = new Paint();
-        drawPaint.setColor(paintColor);
-        drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(5);
-        drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
-        drawPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        for (int i = 0; i < points.size() - 1; i++) {
-            Point pre = points.get(i);
-            Point post = points.get(i + 1);
-            canvas.drawLine(pre.x, pre.y, post.x, post.y, drawPaint);
+        int currentColor = drawPaint.getColor();
+        for (Path p :
+                paths) {
+            drawPaint.setColor(colorMap.get(p));
+            canvas.drawPath(p, drawPaint);
         }
+        drawPaint.setColor(currentColor);
+        canvas.drawPath(path, drawPaint);
+
 
     }
 
@@ -52,8 +49,42 @@ public class DrawingView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         int x_pos = Math.round(event.getX());
         int y_pos = Math.round(event.getY());
-        points.add(new Point(x_pos, y_pos));
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                path = new Path();
+                path.moveTo(x_pos, y_pos);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(x_pos, y_pos);
+                break;
+            case MotionEvent.ACTION_UP:
+                paths.add(path);
+                colorMap.put(path, drawPaint.getColor());
+            default:
+                return false;
+        }
         postInvalidate();
         return true;
+    }
+
+
+    private void setupPaint() {
+        drawPaint = new Paint();
+        drawPaint.setColor(Color.BLACK);
+        drawPaint.setAntiAlias(true);
+        drawPaint.setStrokeWidth(5);
+        drawPaint.setStyle(Paint.Style.STROKE);
+        drawPaint.setStrokeJoin(Paint.Join.ROUND);
+        drawPaint.setStrokeCap(Paint.Cap.ROUND);
+    }
+
+    public void reset() {
+        path = new Path();
+        paths.clear();
+        invalidate();
+    }
+
+    public void setPaintColor(int color) {
+        drawPaint.setColor(color);
     }
 }
