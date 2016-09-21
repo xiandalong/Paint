@@ -3,9 +3,13 @@ package com.example.xiandalong.paint;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +54,24 @@ public class MainActivity extends AppCompatActivity {
         setupResetButton();
         setupColorPanel();
         setupBrushSizePanel();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save_button:
+                savePicture();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void setupResetButton() {
@@ -128,5 +150,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private void savePicture() {
+        Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show();
+    }
+
 
 }
