@@ -40,6 +40,7 @@
         android:layout_alignStart="@id/color_panel_button"
         android:layout_alignLeft="@id/color_panel_button"
         android:visibility="invisible"
+        android:animateLayoutChanges="true"
         >
 
         <ImageButton
@@ -80,6 +81,7 @@
         android:layout_alignRight="@id/brush_button"
         android:orientation="vertical"
         android:visibility="invisible"
+        android:animateLayoutChanges="true"
         >
 
         <FrameLayout
