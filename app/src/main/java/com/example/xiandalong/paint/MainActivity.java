@@ -10,6 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
+    // todo: implement interface defined by presenter
 
     @BindView(R.id.drawing_view)
     DrawingView drawingView;
@@ -55,9 +56,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 drawingView.reset();
+                // todo: presenter.resetButtonClicked();
             }
         });
     }
+
+    // todo: implement method for resetting drawingView; public void resetDrawing() { drawingView.reset() }
 
     private void setupColorPanel() {
         colorPanelButton.setOnClickListener(new View.OnClickListener() {

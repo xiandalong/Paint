@@ -1,6 +1,7 @@
 package com.example.xiandalong.paint;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -21,6 +22,7 @@ public class DrawingView extends View {
     private Path path = new Path();
     private List<Path> paths = new ArrayList<>();
     private Map<Path, PaintProperties> propertyMap = new HashMap<>();
+    private Bitmap cacheBitmap;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,7 +34,15 @@ public class DrawingView extends View {
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        cacheBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
+        canvas.drawBitmap(cacheBitmap, 0, 0, drawPaint);
         int currentColor = drawPaint.getColor();
         int currentBrushWidth = Math.round(drawPaint.getStrokeWidth());
         for (Path p :
