@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.color_panel_button)
     ImageButton colorPanelButton;
     @BindView(R.id.color_panel)
-    View colorPanel;
+    LinearLayout colorPanel;
     @BindView(R.id.color_black_button)
     ImageButton colorBlackButton;
     @BindView(R.id.color_grey_button)
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.brush_button)
     ImageButton brushButton;
     @BindView(R.id.brush_size_panel)
-    View brushSizePanel;
+    LinearLayout brushSizePanel;
     @BindView(R.id.brush_size_button_1)
     View brushSizeButton1;
     @BindView(R.id.brush_size_button_2)
