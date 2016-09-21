@@ -12,45 +12,167 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         />
 
     <ImageButton
-        android:id="@+id/reset_image_view"
+        android:id="@+id/reset"
         android:layout_width="@dimen/icon_size"
         android:layout_height="@dimen/icon_size"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/icon_margin"
         android:src="@drawable/ic_reset"
+        android:scaleType="fitCenter"
+        />
+
+    <ImageButton
+        android:id="@+id/color_panel_button"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="@dimen/icon_margin"
+        android:layout_marginLeft="@dimen/icon_margin"
+        android:layout_marginBottom="@dimen/icon_margin"
+        android:src="@drawable/ic_color_panel"
+        android:scaleType="fitCenter"
         />
 
     <LinearLayout
+        android:id="@+id/color_panel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
         android:orientation="vertical"
-
+        android:layout_above="@id/color_panel_button"
+        android:layout_alignStart="@id/color_panel_button"
+        android:layout_alignLeft="@id/color_panel_button"
+        android:visibility="invisible"
         >
 
         <ImageButton
-            android:id="@+id/select_color_grey"
+            android:id="@+id/color_grey_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/icon_margin"
             android:background="@drawable/circle_grey"
-            android:layout_margin="@dimen/icon_margin"
             />
 
         <ImageButton
-            android:id="@+id/select_color_black"
+            android:id="@+id/color_black_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/icon_margin"
             android:background="@drawable/circle_black"
-            android:layout_margin="@dimen/icon_margin"
             />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/brush_button"
+        android:layout_width="@dimen/icon_size"
+        android:layout_height="@dimen/icon_size"
+        android:layout_toEndOf="@id/color_panel"
+        android:layout_toRightOf="@id/color_panel"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/icon_margin"
+        android:layout_marginLeft="@dimen/icon_margin"
+        android:layout_marginBottom="@dimen/icon_margin"
+        android:src="@drawable/ic_artistic_brush"
+        android:scaleType="fitCenter"
+        />
+
+    <LinearLayout
+        android:id="@+id/brush_size_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/brush_button"
+        android:layout_alignStart="@id/brush_button"
+        android:layout_alignEnd="@id/brush_button"
+        android:layout_alignLeft="@id/brush_button"
+        android:layout_alignRight="@id/brush_button"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        >
+
+        <FrameLayout
+            android:id="@+id/brush_size_button_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/icon_margin"
+            >
+
+            <ImageButton
+                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:background="@drawable/circle_light_grey"
+                android:clickable="false"
+                />
+
+            <ImageButton
+                android:layout_width="@dimen/brush_size_1"
+                android:layout_height="@dimen/brush_size_1"
+                android:background="@drawable/circle_black"
+                android:layout_gravity="center"
+                android:clickable="false"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/brush_size_button_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/icon_margin"
+            >
+
+            <ImageButton
+                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:background="@drawable/circle_light_grey"
+                android:clickable="false"
+                />
+
+            <ImageButton
+                android:layout_width="@dimen/brush_size_2"
+                android:layout_height="@dimen/brush_size_2"
+                android:background="@drawable/circle_black"
+                android:layout_gravity="center"
+                android:clickable="false"
+                />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/brush_size_button_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/icon_margin"
+            >
+
+            <ImageButton
+                android:layout_height="@dimen/icon_size"
+                android:layout_width="@dimen/icon_size"
+                android:background="@drawable/circle_light_grey"
+                android:clickable="false"
+                />
+
+            <ImageButton
+                android:layout_width="@dimen/brush_size_3"
+                android:layout_height="@dimen/brush_size_3"
+                android:background="@drawable/circle_black"
+                android:layout_gravity="center"
+                android:clickable="false"
+                />
+
+        </FrameLayout>
+
 
     </LinearLayout>
 </RelativeLayout>

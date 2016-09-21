@@ -20,7 +20,7 @@ public class DrawingView extends View {
     private Paint drawPaint;
     private Path path = new Path();
     private List<Path> paths = new ArrayList<>();
-    private Map<Path, Integer> colorMap = new HashMap<>();
+    private Map<Path, PaintProperties> propertyMap = new HashMap<>();
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,12 +34,15 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         int currentColor = drawPaint.getColor();
+        int currentBrushWidth = Math.round(drawPaint.getStrokeWidth());
         for (Path p :
                 paths) {
-            drawPaint.setColor(colorMap.get(p));
+            drawPaint.setColor(propertyMap.get(p).getColor());
+            drawPaint.setStrokeWidth(propertyMap.get(p).getBrushWidth());
             canvas.drawPath(p, drawPaint);
         }
         drawPaint.setColor(currentColor);
+        drawPaint.setStrokeWidth(currentBrushWidth);
         canvas.drawPath(path, drawPaint);
 
 
@@ -59,7 +62,8 @@ public class DrawingView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 paths.add(path);
-                colorMap.put(path, drawPaint.getColor());
+                propertyMap.put(path,
+                                new PaintProperties(drawPaint.getColor(), Math.round(drawPaint.getStrokeWidth())));
             default:
                 return false;
         }
@@ -72,8 +76,8 @@ public class DrawingView extends View {
         drawPaint = new Paint();
         drawPaint.setColor(Color.BLACK);
         drawPaint.setAntiAlias(true);
-        drawPaint.setStrokeWidth(5);
         drawPaint.setStyle(Paint.Style.STROKE);
+        drawPaint.setStrokeWidth(8);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
     }
@@ -86,5 +90,9 @@ public class DrawingView extends View {
 
     public void setPaintColor(int color) {
         drawPaint.setColor(color);
+    }
+
+    public void setPaintWidth(int width) {
+        drawPaint.setStrokeWidth(width);
     }
 }
