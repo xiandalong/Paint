@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void savePicture() {
+        drawingView.saveBitmap();
         Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show();
     }
 

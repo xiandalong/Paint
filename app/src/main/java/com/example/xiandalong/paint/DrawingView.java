@@ -6,10 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -104,5 +110,33 @@ public class DrawingView extends View {
 
     public void setPaintWidth(int width) {
         drawPaint.setStrokeWidth(width);
+    }
+
+    public void saveBitmap() {
+
+        String fullPath =
+                Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_DCIM;
+        try {
+            File dir = new File(fullPath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            File file = new File(fullPath, "my_drawing.png");
+            file.createNewFile();
+            OutputStream fOut = new FileOutputStream(file);
+
+            cacheBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+
+            MediaStore.Images.Media.insertImage(getContext().getContentResolver(),
+                                                file.getAbsolutePath(),
+                                                file.getName(),
+                                                file.getName());
+
+
+        } catch (Exception e) {
+            Log.e("saveToExternalStorage()", e.getMessage());
+        }
     }
 }
