@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -83,54 +82,6 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     }
 
     @Override
-    public void changeColorPanelVisibility() {
-        if (colorPanel.getVisibility() == View.INVISIBLE) {
-            colorPanel.setVisibility(View.VISIBLE);
-        } else {
-            colorPanel.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void changeBrushSizePanelVisibility() {
-        if (brushSizePanel.getVisibility() == View.INVISIBLE) {
-            brushSizePanel.setVisibility(View.VISIBLE);
-        } else {
-            brushSizePanel.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void changeToColorBlack() {
-        drawingView.setPaintColor(ContextCompat.getColor(MainActivity.this, R.color.blackPaint));
-        colorPanel.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void changeToColorGrey() {
-        drawingView.setPaintColor(ContextCompat.getColor(MainActivity.this, R.color.greyPaint));
-        colorPanel.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void changeToBrushSize1() {
-        drawingView.setPaintWidth(8);
-        brushSizePanel.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void changeToBrushSize2() {
-        drawingView.setPaintWidth(12);
-        brushSizePanel.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    public void changeToBrushSize3() {
-        drawingView.setPaintWidth(16);
-        brushSizePanel.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
     public void resetDrawing() {
         drawingView.reset();
     }
@@ -147,6 +98,52 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
             );
         }
         drawingView.saveBitmap();
+    }
+
+    @Override
+    public boolean isColorPanelVisible() {
+        if (colorPanel.getVisibility() == View.VISIBLE) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void hideColorPanel() {
+        colorPanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showColorPanel() {
+        colorPanel.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean isBrushSizePanelVisible() {
+        if (brushSizePanel.getVisibility() == View.VISIBLE) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void hideBrushSizePanel() {
+        brushSizePanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showBrushSizePanel() {
+        brushSizePanel.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void changeToColor(DrawingProperties properties) {
+        drawingView.setPaintColor(properties.getColor());
+    }
+
+    @Override
+    public void changeToBrushSize(DrawingProperties properties) {
+        drawingView.setPaintWidth(properties.getBrushSize());
     }
 
     private void setupResetButton() {

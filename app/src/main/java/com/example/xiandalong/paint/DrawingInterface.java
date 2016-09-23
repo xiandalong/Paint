@@ -1,24 +1,26 @@
 package com.example.xiandalong.paint;
 
 
-public interface DrawingInterface {
+interface DrawingInterface {
 
     void resetDrawing();
 
     void saveDrawing();
 
-    void changeColorPanelVisibility();
+    boolean isColorPanelVisible();
 
-    void changeBrushSizePanelVisibility();
+    void hideColorPanel();
 
-    void changeToColorBlack();
+    void showColorPanel();
 
-    void changeToColorGrey();
+    boolean isBrushSizePanelVisible();
 
-    void changeToBrushSize1();
+    void hideBrushSizePanel();
 
-    void changeToBrushSize2();
+    void showBrushSizePanel();
 
-    void changeToBrushSize3();
+    void changeToColor(DrawingProperties properties);
+
+    void changeToBrushSize(DrawingProperties properties);
 
 }

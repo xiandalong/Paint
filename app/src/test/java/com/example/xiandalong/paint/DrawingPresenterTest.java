@@ -9,11 +9,10 @@ import static org.mockito.Mockito.verify;
 
 public class DrawingPresenterTest {
 
-
     @Mock
-    DrawingInterface mockView;
+    private DrawingInterface mockView;
 
-    DrawingPresenter mockPresenter;
+    private DrawingPresenter mockPresenter;
 
     @Before
     public void setup() {
@@ -35,13 +34,36 @@ public class DrawingPresenterTest {
 
     @Test
     public void testColorPanelButtonClicked() throws Exception {
-        mockPresenter.colorPanelButtonClicked();
-        verify(mockView).changeColorPanelVisibility();
+        verify(mockView).isColorPanelVisible();
     }
 
     @Test
-    public void testBrushButtonClicked() throws Exception {
-        mockPresenter.brushButtonClicked();
-        verify(mockView).changeBrushSizePanelVisibility();
+    public void brushButtonClicked() throws Exception {
+
+    }
+
+    @Test
+    public void colorBlackChosen() throws Exception {
+
+    }
+
+    @Test
+    public void colorGreyChosen() throws Exception {
+
+    }
+
+    @Test
+    public void brushSize1Chosen() throws Exception {
+
+    }
+
+    @Test
+    public void brushSize2Chosen() throws Exception {
+
+    }
+
+    @Test
+    public void brushSize3Chosen() throws Exception {
+
     }
 }

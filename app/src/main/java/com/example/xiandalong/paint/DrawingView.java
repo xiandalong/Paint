@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -71,7 +70,7 @@ public class DrawingView extends View {
             default:
                 return false;
         }
-        postInvalidate();
+        invalidate();
         return true;
     }
 
@@ -87,7 +86,7 @@ public class DrawingView extends View {
     }
 
     public void reset() {
-        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        drawCanvas.drawColor(Color.WHITE);
         invalidate();
     }
 
