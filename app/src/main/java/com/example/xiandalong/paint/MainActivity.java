@@ -1,6 +1,9 @@
 package com.example.xiandalong.paint;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -9,13 +12,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
-    // todo: implement interface defined by presenter
+public class MainActivity extends AppCompatActivity implements DrawingInterface {
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+    private DrawingPresenter presenter;
 
     @BindView(R.id.drawing_view)
     DrawingView drawingView;
@@ -51,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        presenter = new DrawingPresenter(this);
         setupResetButton();
         setupColorPanel();
         setupBrushSizePanel();
@@ -67,34 +75,94 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_button:
-                savePicture();
+                presenter.saveButtonClicked();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    public void changeColorPanelVisibility() {
+        if (colorPanel.getVisibility() == View.INVISIBLE) {
+            colorPanel.setVisibility(View.VISIBLE);
+        } else {
+            colorPanel.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void changeBrushSizePanelVisibility() {
+        if (brushSizePanel.getVisibility() == View.INVISIBLE) {
+            brushSizePanel.setVisibility(View.VISIBLE);
+        } else {
+            brushSizePanel.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void changeToColorBlack() {
+        drawingView.setPaintColor(ContextCompat.getColor(MainActivity.this, R.color.blackPaint));
+        colorPanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void changeToColorGrey() {
+        drawingView.setPaintColor(ContextCompat.getColor(MainActivity.this, R.color.greyPaint));
+        colorPanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void changeToBrushSize1() {
+        drawingView.setPaintWidth(8);
+        brushSizePanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void changeToBrushSize2() {
+        drawingView.setPaintWidth(12);
+        brushSizePanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void changeToBrushSize3() {
+        drawingView.setPaintWidth(16);
+        brushSizePanel.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void resetDrawing() {
+        drawingView.reset();
+    }
+
+    @Override
+    public void saveDrawing() {
+        int permission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    MainActivity.this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+        drawingView.saveBitmap();
+    }
+
     private void setupResetButton() {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.reset();
-                // todo: presenter.resetButtonClicked();
+                presenter.resetButtonClicked();
             }
         });
     }
-
-    // todo: implement method for resetting drawingView; public void resetDrawing() { drawingView.reset() }
 
     private void setupColorPanel() {
         colorPanelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (colorPanel.getVisibility() == View.INVISIBLE) {
-                    colorPanel.setVisibility(View.VISIBLE);
-                } else {
-                    colorPanel.setVisibility(View.INVISIBLE);
-                }
+                presenter.colorPanelButtonClicked();
             }
         });
 
@@ -102,16 +170,14 @@ public class MainActivity extends AppCompatActivity {
         colorBlackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.setPaintColor(ContextCompat.getColor(MainActivity.this, R.color.blackPaint));
-                colorPanel.setVisibility(View.INVISIBLE);
+                presenter.colorBlackChosen();
             }
         });
 
         colorGreyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.setPaintColor(ContextCompat.getColor(MainActivity.this, R.color.greyPaint));
-                colorPanel.setVisibility(View.INVISIBLE);
+                presenter.colorGreyChosen();
             }
         });
     }
@@ -120,40 +186,28 @@ public class MainActivity extends AppCompatActivity {
         brushButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (brushSizePanel.getVisibility() == View.INVISIBLE) {
-                    brushSizePanel.setVisibility(View.VISIBLE);
-                } else {
-                    brushSizePanel.setVisibility(View.INVISIBLE);
-                }
+                presenter.brushButtonClicked();
             }
         });
         brushSizeButton1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.setPaintWidth(8);
-                brushSizePanel.setVisibility(View.INVISIBLE);
+                presenter.brushSize1Chosen();
             }
         });
         brushSizeButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.setPaintWidth(12);
-                brushSizePanel.setVisibility(View.INVISIBLE);
+                presenter.brushSize2Chosen();
             }
         });
         brushSizeButton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawingView.setPaintWidth(16);
-                brushSizePanel.setVisibility(View.INVISIBLE);
+                presenter.brushSize3Chosen();
             }
         });
 
-    }
-
-    private void savePicture() {
-        drawingView.saveBitmap();
-        Toast.makeText(this, "Picture saved!", Toast.LENGTH_SHORT).show();
     }
 
 

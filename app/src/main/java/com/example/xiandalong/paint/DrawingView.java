@@ -6,29 +6,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.UUID;
 
 
 public class DrawingView extends View {
 
     private Paint drawPaint;
     private Path path = new Path();
-    private List<Path> paths = new ArrayList<>();
-    private Map<Path, PaintProperties> propertyMap = new HashMap<>();
     private Bitmap cacheBitmap;
+    private Canvas drawCanvas;
+
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -43,22 +40,14 @@ public class DrawingView extends View {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         cacheBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        drawCanvas = new Canvas(cacheBitmap);
+        drawCanvas.drawColor(Color.WHITE);
 
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawBitmap(cacheBitmap, 0, 0, drawPaint);
-        int currentColor = drawPaint.getColor();
-        int currentBrushWidth = Math.round(drawPaint.getStrokeWidth());
-        for (Path p :
-                paths) {
-            drawPaint.setColor(propertyMap.get(p).getColor());
-            drawPaint.setStrokeWidth(propertyMap.get(p).getBrushWidth());
-            canvas.drawPath(p, drawPaint);
-        }
-        drawPaint.setColor(currentColor);
-        drawPaint.setStrokeWidth(currentBrushWidth);
+        canvas.drawBitmap(cacheBitmap, 0, 0, null);
         canvas.drawPath(path, drawPaint);
 
 
@@ -77,9 +66,8 @@ public class DrawingView extends View {
                 path.lineTo(x_pos, y_pos);
                 break;
             case MotionEvent.ACTION_UP:
-                paths.add(path);
-                propertyMap.put(path,
-                                new PaintProperties(drawPaint.getColor(), Math.round(drawPaint.getStrokeWidth())));
+                drawCanvas.drawPath(path, drawPaint);
+                path.reset();
             default:
                 return false;
         }
@@ -89,7 +77,7 @@ public class DrawingView extends View {
 
 
     private void setupPaint() {
-        drawPaint = new Paint();
+        drawPaint = new Paint(Paint.DITHER_FLAG);
         drawPaint.setColor(Color.BLACK);
         drawPaint.setAntiAlias(true);
         drawPaint.setStyle(Paint.Style.STROKE);
@@ -99,8 +87,7 @@ public class DrawingView extends View {
     }
 
     public void reset() {
-        path = new Path();
-        paths.clear();
+        drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
     }
 
@@ -112,31 +99,19 @@ public class DrawingView extends View {
         drawPaint.setStrokeWidth(width);
     }
 
+
     public void saveBitmap() {
 
-        String fullPath =
-                Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Environment.DIRECTORY_DCIM;
         try {
-            File dir = new File(fullPath);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
-            File file = new File(fullPath, "my_drawing.png");
-            file.createNewFile();
-            OutputStream fOut = new FileOutputStream(file);
-
-            cacheBitmap.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-
-            MediaStore.Images.Media.insertImage(getContext().getContentResolver(),
-                                                file.getAbsolutePath(),
-                                                file.getName(),
-                                                file.getName());
-
-
-        } catch (Exception e) {
-            Log.e("saveToExternalStorage()", e.getMessage());
+            File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+            File fullPath = new File(file.getAbsolutePath() + "/" + UUID.randomUUID().toString() + ".png");
+            FileOutputStream fos = new FileOutputStream(fullPath);
+            cacheBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            Toast.makeText(getContext(), "Your drawing is saved!", Toast.LENGTH_LONG).show();
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
