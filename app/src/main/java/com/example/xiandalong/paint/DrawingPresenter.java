@@ -1,6 +1,8 @@
 package com.example.xiandalong.paint;
 
 
+import android.graphics.Color;
+
 class DrawingPresenter {
 
     private static final int DEFAULT_COLOR = R.color.blackPaint;
@@ -38,37 +40,32 @@ class DrawingPresenter {
     }
 
     void colorBlackChosen() {
-        properties.setColor(R.color.blackPaint);
+        properties.setColor(Color.BLACK);
         view.changeToColor(properties);
         view.hideColorPanel();
-        view.hideBrushSizePanel();
     }
 
     void colorGreyChosen() {
-        properties.setColor(R.color.greyPaint);
+        properties.setColor(Color.GRAY);
         view.changeToColor(properties);
         view.hideColorPanel();
-        view.hideBrushSizePanel();
     }
 
     void brushSize1Chosen() {
         properties.setBrushSize(8);
         view.changeToBrushSize(properties);
-        view.hideColorPanel();
         view.hideBrushSizePanel();
     }
 
     void brushSize2Chosen() {
         properties.setBrushSize(12);
         view.changeToBrushSize(properties);
-        view.hideColorPanel();
         view.hideBrushSizePanel();
     }
 
     void brushSize3Chosen() {
         properties.setBrushSize(16);
         view.changeToBrushSize(properties);
-        view.hideColorPanel();
         view.hideBrushSizePanel();
     }
 }

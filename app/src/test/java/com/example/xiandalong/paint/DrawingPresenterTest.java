@@ -34,36 +34,43 @@ public class DrawingPresenterTest {
 
     @Test
     public void testColorPanelButtonClicked() throws Exception {
+        mockPresenter.colorPanelButtonClicked();
         verify(mockView).isColorPanelVisible();
     }
 
     @Test
-    public void brushButtonClicked() throws Exception {
-
+    public void testBrushButtonClicked() throws Exception {
+        mockPresenter.brushButtonClicked();
+        verify(mockView).isBrushSizePanelVisible();
     }
 
     @Test
-    public void colorBlackChosen() throws Exception {
-
+    public void testColorBlackChosen() throws Exception {
+        mockPresenter.colorBlackChosen();
+        verify(mockView).hideColorPanel();
     }
 
     @Test
-    public void colorGreyChosen() throws Exception {
-
+    public void testColorGreyChosen() throws Exception {
+        mockPresenter.colorGreyChosen();
+        verify(mockView).hideColorPanel();
     }
 
     @Test
-    public void brushSize1Chosen() throws Exception {
-
+    public void testBrushSize1Chosen() throws Exception {
+        mockPresenter.brushSize1Chosen();
+        verify(mockView).hideBrushSizePanel();
     }
 
     @Test
-    public void brushSize2Chosen() throws Exception {
-
+    public void testBrushSize2Chosen() throws Exception {
+        mockPresenter.brushSize2Chosen();
+        verify(mockView).hideBrushSizePanel();
     }
 
     @Test
-    public void brushSize3Chosen() throws Exception {
-
+    public void testBrushSize3Chosen() throws Exception {
+        mockPresenter.brushSize3Chosen();
+        verify(mockView).hideBrushSizePanel();
     }
 }
