@@ -102,10 +102,8 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
 
     @Override
     public boolean isColorPanelVisible() {
-        if (colorPanel.getVisibility() == View.VISIBLE) {
-            return true;
-        }
-        return false;
+        // simplify this
+        return colorPanel.getVisibility() == View.VISIBLE;
     }
 
     @Override
@@ -120,10 +118,7 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
 
     @Override
     public boolean isBrushSizePanelVisible() {
-        if (brushSizePanel.getVisibility() == View.VISIBLE) {
-            return true;
-        }
-        return false;
+        return brushSizePanel.getVisibility() == View.VISIBLE;
     }
 
     @Override
@@ -156,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     }
 
     private void setupColorPanel() {
+        //replace these with @Onclick in butterknife
+
         colorPanelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
             }
         });
 
-
+        //if we have many colors, use switch + Butterknife
         colorBlackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

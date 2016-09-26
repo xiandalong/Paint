@@ -19,6 +19,7 @@ interface DrawingInterface {
 
     void showBrushSizePanel();
 
+    // arg should be color
     void changeToColor(DrawingProperties properties);
 
     void changeToBrushSize(DrawingProperties properties);

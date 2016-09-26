@@ -22,6 +22,7 @@ public class DrawingView extends View {
 
     private Paint drawPaint;
     private Path path = new Path();
+    // may use arraylist to store strokes
     private Bitmap cacheBitmap;
     private Canvas drawCanvas;
 

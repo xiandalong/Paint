@@ -5,10 +5,11 @@ import android.graphics.Color;
 
 class DrawingPresenter {
 
-    private static final int DEFAULT_COLOR = R.color.blackPaint;
+    private static final int DEFAULT_COLOR = Color.BLACK;
     private static final int DEFAULT_SIZE = R.dimen.brush_size_1;
     private DrawingInterface view;
     private DrawingProperties properties = new DrawingProperties(DEFAULT_COLOR, DEFAULT_SIZE);
+    //add boolean state of buttons
 
     DrawingPresenter(DrawingInterface view) {
         this.view = view;
@@ -39,6 +40,7 @@ class DrawingPresenter {
         }
     }
 
+    // reduce repeatition here
     void colorBlackChosen() {
         properties.setColor(Color.BLACK);
         view.changeToColor(properties);
