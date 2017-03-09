@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements DrawingInterface 
     };
     private DrawingPresenter presenter;
 
-    // add comment
     @BindView(R.id.drawing_view)
     DrawingView drawingView;
     @BindView(R.id.reset)
